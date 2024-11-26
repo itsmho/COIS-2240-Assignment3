@@ -2,6 +2,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Transaction {
+	
+	  private static Transaction transactionInstance = null;
+
+	    
+	    private Transaction() 
+	    {
+	    }
+	    
+	    public static synchronized Transaction getTransaction() {
+	        if (transactionInstance == null) {
+	            transactionInstance = new Transaction();
+	        }
+	        return transactionInstance;
+	    }
 
     // Perform the borrowing of a book
     public static boolean borrowBook(Book book, Member member) {
