@@ -4,12 +4,14 @@ public class LibraryManagement {
     private Library library = new Library();
 
     public static void main(String[] args) {
+    	
         new LibraryManagement().run();
     }
 
     private void run() {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
+        Transaction transaction = Transaction.getTransaction();
 
         while (running) {
             System.out.println("===========================");
@@ -76,8 +78,10 @@ public class LibraryManagement {
                     Book book = library.findBookById(bookId);
 
                     if (member != null && book != null) {
+                    	Transaction saveTransaction = Transaction.getTransaction();
                     	Transaction borrowBook = Transaction.getTransaction();
                     	Transaction.borrowBook(book, member);
+                    	
                     } else {
                         System.out.println("Invalid member or book ID.");
                     }
@@ -95,6 +99,7 @@ public class LibraryManagement {
                     book = library.findBookById(bookId);
 
                     if (member != null && book != null) {
+                    	Transaction saveTransaction = Transaction.getTransaction();
                     	Transaction returnBook = Transaction.getTransaction();
                     	Transaction.returnBook(book, member);
                     } else {
@@ -118,7 +123,7 @@ public class LibraryManagement {
                     }
                     break;
                 case 6:
-                	Transaction.displayTransactionHistory();
+                	//Transaction.displayTransactionHistory();
                     break;
                 case 7:
                     System.out.println("Exiting. Good Bye..");

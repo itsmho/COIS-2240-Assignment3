@@ -1,18 +1,24 @@
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+import java.io.File;
 
 public class Transaction {
 	
 	  private static Transaction transactionInstance = null;
+	  private static String transactionFile = "transaction.txt";
 
 	    
 	    private Transaction() 
 	    {
+	    	createTransactionFile();
 	    }
 	    
 	    public static synchronized Transaction getTransaction() {
 	        if (transactionInstance == null) {
-	            transactionInstance = new Transaction();
+	        	transactionInstance = new Transaction();
+	        	//reateTransactionFile();
 	        }
 	        return transactionInstance;
 	    }
@@ -23,6 +29,7 @@ public class Transaction {
             book.borrowBook();
             member.borrowBook(book); 
             String transactionDetails = getCurrentDateTime() + " - Borrowing: " + member.getName() + " borrowed " + book.getTitle();
+            saveTransaction(transactionDetails);
             System.out.println(transactionDetails);
             return true;
         } else {
@@ -37,6 +44,7 @@ public class Transaction {
             member.returnBook(book);
             book.returnBook();
             String transactionDetails = getCurrentDateTime() + " - Returning: " + member.getName() + " returned " + book.getTitle();
+            saveTransaction(transactionDetails);
             System.out.println(transactionDetails);
         } else {
             System.out.println("This book was not borrowed by the member.");
@@ -48,4 +56,37 @@ public class Transaction {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return sdf.format(new Date());
     }
+    
+    public static void createTransactionFile() 
+    {
+    	try 
+    	{ 
+    		File file = new File(transactionFile);
+    		if (!file.exists()) 
+    		{
+    			file.createNewFile();
+    		} 
+    	
+    	} catch (Exception ex) 
+    	{
+    		System.err.println("Error Creating File");
+    	}
+    }
+  
+	private static void saveTransaction(String transactionDetails) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(transactionFile, true))) {
+            writer.write(transactionDetails);
+            writer.newLine();
+        } catch (Exception ex) {
+            System.err.println("Error saving transaction to file: ");
+        }
+    }
+
+	public static void displayTransactionHistory() {
+		System.out.println("TESTTEST");
+		
+	}
+
+	
 }
+	    
