@@ -12,7 +12,11 @@ public class Library {
     
     // Add a new book to the library
     public void addBook(Book book) {
+    	boolean found = false;
+    	
+    	//if ()
         books.add(book);
+        //return book;
     }
 
     // Find a member by ID

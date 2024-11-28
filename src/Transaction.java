@@ -3,6 +3,7 @@ import java.util.Date;
 import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.util.Scanner;
 
 public class Transaction {
 	
@@ -18,7 +19,7 @@ public class Transaction {
 	    public static synchronized Transaction getTransaction() {
 	        if (transactionInstance == null) {
 	        	transactionInstance = new Transaction();
-	        	//reateTransactionFile();
+	        	//createTransactionFile();
 	        }
 	        return transactionInstance;
 	    }
@@ -61,10 +62,10 @@ public class Transaction {
     {
     	try 
     	{ 
-    		File file = new File(transactionFile);
-    		if (!file.exists()) 
+    		File fileTxt = new File(transactionFile);
+    		if (!fileTxt.exists()) 
     		{
-    			file.createNewFile();
+    			fileTxt.createNewFile();
     		} 
     	
     	} catch (Exception ex) 
@@ -83,10 +84,30 @@ public class Transaction {
     }
 
 	public static void displayTransactionHistory() {
-		System.out.println("TESTTEST");
-		
+		File fileTxt = new File(transactionFile);
+        if (!fileTxt.exists()) 
+        {
+            System.out.println("Transaction history not found.");
+            return;
+        } 
+       try ( Scanner readFile = new Scanner(fileTxt))
+       {
+            System.out.println("Transaction History");
+            while (readFile.hasNextLine()) 
+            
+            {
+            	String line = readFile.nextLine();
+                System.out.println(line); 
+            }
+            readFile.close();
+        } catch (Exception ex ) 
+             {
+            	 System.out.println("Cant read file");
+             }
+        
+        
+       }
+	
 	}
 
-	
-}
 	    
