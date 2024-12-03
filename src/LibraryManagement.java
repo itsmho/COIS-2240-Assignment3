@@ -49,10 +49,13 @@ public class LibraryManagement {
                     String title = scanner.next();
                     
                     scanner.nextLine();
-
+                    try {
                     Book newBook = new Book(id, title);
+                    Book.isValidId(id);
                     library.addBook(newBook);
-                    
+                    } catch (Exception ex) {
+    					ex.printStackTrace();
+    					}
                     break;
                 case 3:
                 	System.out.println("\n--- Available Members ---");

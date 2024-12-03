@@ -35,7 +35,15 @@ public class Book {
     }
 
     // Method to check if a book id is valid
-    public boolean isValidId(int id) {
-        return id >= 100 && id <= 999;
+    public static void isValidId(int id)
+    
+    throws Exception 
+    
+    {
+        if (id < 100 || id > 999) 
+        { 
+        	throw new Exception("Invalid Book ID, ID must be between 100 and 999.");
+        }
+    	
     }
 }
