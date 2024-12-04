@@ -12,7 +12,8 @@ public class LibraryManagementTest {
     private Book testBook4;
     private Book testBook5;
     private Book testBook;
-    private Member testMember;
+    private Member testMember1;
+    private Member testMember2;
     private Transaction transaction;
 	
     
@@ -20,8 +21,10 @@ public class LibraryManagementTest {
     public void setUp() throws Exception {
         // Instantiate a Book and Member object
         testBook = new Book(100, "Math");
-        testMember = new Member(1111, "George");
+        testMember1 = new Member(1111, "George");
+        testMember2 = new Member(2222, "Anne");
         transaction = Transaction.getTransaction();
+        
     }
 	@Test
 	public void testBookId() {
@@ -63,12 +66,30 @@ public class LibraryManagementTest {
 			assertEquals("Invalid Book ID, ID must be between 100 and 999.", ex.getMessage());
 	}
 	}
+	
+	@Test
 public void testBorrowReturn() { 
 	
-	boolean borrowResults1 = transaction.borrowBook(testBook, testMember);
-	assertTrue("Book is avaliable to borrow", testBook.isAvailable());
+		assertTrue("Book is avaliable to borrow", testBook.isAvailable());
+		boolean borrowResults1 = transaction.borrowBook(testBook, testMember1);
+
+	
 	assertTrue("Borrowing should be sucessful", borrowResults1);
-	assertFalse("Book should be unavaliable", testBook.isAvailable());
+	assertFalse("Book should be unavaliable after borrowing", testBook.isAvailable());
+	
+	boolean borrowResults2 = transaction.borrowBook(testBook, testMember2);
+	assertTrue("Borrowing should be unsucessful after borrowing", borrowResults1);
+	
+	boolean returnResults = transaction.returnBook(testBook, testMember1);
+	assertTrue("Borrowing should be sucessful after returning",testBook.isAvailable());
+	boolean borrowResults4 = transaction.borrowBook(testBook, testMember2);
+	assertFalse("Book should be unavaliable after borrowing", testBook.isAvailable());
+	boolean returnResults2 = transaction.returnBook(testBook, testMember2);
+	assertTrue("Book is avaliable to borrow", testBook.isAvailable());
+	boolean returnResults3 = transaction.returnBook(testBook, testMember1);
+	assertFalse("Returning should fail for an already returned book.", returnResults3);
+	
+	
 	
 }}
 ;
