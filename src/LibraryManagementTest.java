@@ -2,6 +2,8 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Modifier;
 
 public class LibraryManagementTest {
 	
@@ -91,6 +93,22 @@ public void testBorrowReturn() {
 	
 	
 	
-}}
-;
+}
+	@Test
+	public void testSingletonTransaction() throws Exception {
+			 
+				Constructor<Transaction> constructor = Transaction.class.getDeclaredConstructor();
+				constructor.setAccessible(true);
+				
+				int mod = constructor.getModifiers();
+				
+				try { assertEquals("Should be private", Modifier.PRIVATE, mod);
+				} catch (Exception ex) {
+					fail("Not private"); }
+				}
+				
+	}
+
+
+
 
